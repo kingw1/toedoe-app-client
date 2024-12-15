@@ -19,29 +19,29 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link :to="{ name: 'tasks' }" class="nav-link"
-                            >Tasks</router-link
+                        <RouterLink :to="{ name: 'tasks' }" class="nav-link"
+                            >Tasks</RouterLink
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link :to="{ name: 'summary' }" class="nav-link"
-                            >Summary</router-link
+                        <RouterLink :to="{ name: 'summary' }" class="nav-link"
+                            >Summary</RouterLink
                         >
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <router-link
+                        <RouterLink
                             :to="{ name: 'login' }"
                             class="btn btn-outline-secondary ms-2"
-                            >Login</router-link
+                            >Login</RouterLink
                         >
                     </li>
                     <li class="nav-item">
-                        <router-link
+                        <RouterLink
                             :to="{ name: 'register' }"
                             class="btn btn-danger ms-2"
-                            >Register</router-link
+                            >Register</RouterLink
                         >
                     </li>
                     <li class="nav-item">
