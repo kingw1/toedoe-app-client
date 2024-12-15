@@ -4,4 +4,5 @@ import routes from "./routers";
 export default createRouter({
     routes,
     history: createWebHistory(),
+    linkActiveClass: "active",
 });
