@@ -1,9 +1,11 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import Dropdown from "@/components/dropdown/Dropdown.vue";
 import DropdownItem from "@/components/dropdown/DropdownItem.vue";
 import DropdownTrigger from "@/components/dropdown/DropdownTrigger.vue";
 import { endOfWeek, format, startOfWeek, subWeeks } from "date-fns";
+import FilterItem from "./FilterItem.vue";
+import { useRouter } from "vue-router";
 
 const filterItems = computed(() => {
     const thisWeekStart = format(startOfWeek(new Date()), "d MMM");
@@ -20,6 +22,30 @@ const filterItems = computed(() => {
         lastmonth: "Last month",
     };
 });
+
+const activeFilterKey = ref("thisweek");
+const activeFilter = computed(
+    () => filterItems.value[activeFilterKey.value] || filterItems.value.thisweek
+);
+
+const emit = defineEmits(["update"]);
+
+const router = useRouter();
+const filter = (period) => {
+    activeFilterKey.value = period;
+    router.push({ name: "summary", query: { period } });
+    emit("update", {
+        text: activeFilter.value,
+        period: activeFilterKey.value,
+    });
+};
+
+onMounted(() =>
+    emit("update", {
+        text: activeFilter.value,
+        period: activeFilterKey.value,
+    })
+);
 </script>
 
 <template>
@@ -30,7 +56,7 @@ const filterItems = computed(() => {
                 :class="toggleClass"
                 type="button"
                 @click="toggle"
-                >Filter</DropdownTrigger
+                >{{ activeFilter }}</DropdownTrigger
             >
         </template>
         <template v-slot:menu="{ toggle }">
@@ -38,9 +64,10 @@ const filterItems = computed(() => {
                 v-for="(value, key) in filterItems"
                 :key="key"
                 href="#"
-                @click.prevent="toggle"
-                >{{ value }}</DropdownItem
+                @click.prevent="toggle(), filter(key)"
             >
+                <FilterItem :text="value" :selected="key === activeFilterKey" />
+            </DropdownItem>
         </template>
     </Dropdown>
 </template>
